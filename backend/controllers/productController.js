@@ -1,6 +1,7 @@
 import Product from "../models/productModel.js"
 import { ErrorHandler } from "../utils/errorHandler.js";
 import { asyncError } from "../middleware/asyncError.js";
+import { ApiFeatures } from "../utils/apiFeatures.js";
 
 //Create Products [Admin route only]
 export const createProduct = asyncError(async (req, res, next) => {
@@ -10,7 +11,8 @@ export const createProduct = asyncError(async (req, res, next) => {
 
 //Get All Products
 export const getProducts = asyncError(async (req, res, next) => {
-    let product = await Product.find();
+    let apiFeature = new ApiFeatures(Product.find(), req.query).search();
+    let product = await apiFeature.query;
     res.status(200).json({ success: true, product });
 });
 
