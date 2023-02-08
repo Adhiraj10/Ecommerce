@@ -11,7 +11,8 @@ export const createProduct = asyncError(async (req, res, next) => {
 
 //Get All Products
 export const getProducts = asyncError(async (req, res, next) => {
-    let apiFeature = new ApiFeatures(Product.find(), req.query).search().filter();
+    const resultPerPage = 10;                                       //Placeholder value for now
+    let apiFeature = new ApiFeatures(Product.find(), req.query).search().filter().pagination(resultPerPage);
     let product = await apiFeature.query;
     res.status(200).json({ success: true, product });
 });
